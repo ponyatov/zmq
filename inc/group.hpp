@@ -12,7 +12,13 @@ struct GROUP {
     //     uint packetSize;               ///< UDP payload size, bytes
 };
 
+class Sender;
+
 class Group : public Worker {
+    friend class Sender;
+    GROUP* g;
+    Sender* sender;
    public:
-    Group();
+    Group(pcpp::DpdkDevice* dev, GROUP* g);
+    bool run(uint32_t coreid);
 };

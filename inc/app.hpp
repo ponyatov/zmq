@@ -10,6 +10,7 @@
 #include "sensor.hpp"
 //
 #include "group.hpp"
+#include "sender.hpp"
 //
 #include "config.hpp"
 //

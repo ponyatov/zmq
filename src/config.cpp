@@ -4,6 +4,7 @@ void Config::init() {
     std::clog << "config:\n";
     for (auto g : config.groups) {
         std::clog << "\tgroup:" << g->name;
+        new Group(Dev::dev,g);
         for (auto s : config.sensors) {
             std::clog << "\n\t\t" << s->name                        //
                       << " : " << s->src.ip << ':' << s->src.port   //
