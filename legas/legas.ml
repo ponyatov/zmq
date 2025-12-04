@@ -1,15 +1,13 @@
 let app = Sys.getcwd () |> String.split_on_char '/' |> List.rev |> List.hd
-let title = "PcapPlusPlus"
+let title = "cppzmq + pcpp (DPDK)"
 let about = ""
 let author = "Dmitry Ponyatov"
 let email = "dponyatov@gmail.com"
 let year = 2025
 let license = "MIT"
 let github = "github: https://github.com/ponyatov/" ^ app
-let orig = "https://github.com/seladb/PcapPlusPlus.git"
-let tag = "v25.05";;
-
-#use "lib/legas.ml"
+let orig = "https://github.com/zeromq/cppzmq"
+let tag = "zmq";;
 
 #use "legas/files.ml"
 
@@ -20,6 +18,7 @@ apt();;
 readme();;
 
 #use "legas/ocaml.ml"
+ocaml();;
 
 #use "legas/doc.ml"
 doc();

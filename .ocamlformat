@@ -1,5 +1,5 @@
-version = 0.28.1
-profile = default
+version=0.28.1
+profile=default
 margin=80
 line-endings=lf
 break-cases=all
