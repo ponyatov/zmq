@@ -27,4 +27,5 @@ class Dev {
     ~Dev();
     static void init();
     static void stop();
+    static void run_workers();
 };

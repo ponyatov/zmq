@@ -7,6 +7,8 @@ int main(int argc, char* argv[]) {  //
     for (int i = 1; i < argc; i++) arg(i, argv[i]);
     Dev::init();
     Config::init();
+    new Stat(Dev::dev);
+    Dev::run_workers();
     return loop();
 }
 
@@ -21,7 +23,7 @@ void setup(int argc, char* argv[]) {  //
 int loop() {  //
     std::clog << "loop: \n";
     while (true) {
-        std::clog << '.';
+        // std::clog << '.';
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     return 0;

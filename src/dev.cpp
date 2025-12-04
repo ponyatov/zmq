@@ -5,6 +5,12 @@ pcpp::CoreMask Dev::coreMask;
 pcpp::DpdkDevice *Dev::dev = nullptr;
 uint16_t Dev::MTU = 1500;
 
+const pcpp::MacAddress Dev::broadcast(BROADCAST);
+const pcpp::MacAddress Dev::sendMac(SENDMAC);
+const pcpp::MacAddress Dev::recvMac(RECVMAC);
+const pcpp::IPv4Address Dev::sendIp(SENDIP);
+const pcpp::IPv4Address Dev::recvIp(RECVIP);
+
 void Dev::init() {
     std::clog << "dev:";
 
@@ -31,10 +37,18 @@ void Dev::init() {
               << '/' << dev->getAmountOfFreeMbufs()         //
               << " mtu:" << dev->getMtu()                   //
               << "\n";
-    assert(dev->open());
+    //
+    assert(dev->openMultiQueues(1, 1));  // assert(dev->open());
 }
 
 void Dev::stop() {
+    std::clog << "dev: stop\n";
     pcpp::DpdkDeviceList::getInstance().stopDpdkWorkerThreads();
+    Worker::wait_inactive();
     Dev::dev->close();
+}
+
+void Dev::run_workers() {
+    pcpp::DpdkDeviceList::getInstance().startDpdkWorkerThreads(  //
+        Worker::coreMask, Worker::threads);
 }

@@ -20,7 +20,6 @@ struct CONFIG {
     uint8_t baseCPUIndex;          ///< `=0` starting CPU core for DPDK
     std::vector<GROUP*> groups;    ///< sender groups
     std::vector<SENSOR*> sensors;  ///< list of all sensors in a system
-    static void run();             ///< run preconfigured & static-compiled
 };
 
 extern CONFIG config;
