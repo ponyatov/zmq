@@ -35,6 +35,15 @@ gdb gdbserver valgrind
 flex bison ragel libreadline-dev
 "
     ()
+  touch "apt.Ubuntu"
+    ~c:
+      "git make curl fzf
+doxygen
+g++ cmake pkg-config clang-format
+gdb gdbserver valgrind
+flex bison ragel libreadline-dev
+"
+    ()
 
 let readme () =
   (* *)
