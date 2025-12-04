@@ -28,6 +28,7 @@ endif()
 message("-- |")
 
 include(json2cpp)
+include(gen2obj)
 
 add_executable(${CMAKE_PROJECT_NAME}
     ${C}  ${H}          # C/C++ source

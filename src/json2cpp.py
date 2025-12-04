@@ -99,7 +99,7 @@ def config_json(jsn, cpp, hpp):
         with C(cpp) as c:
             with H(hpp) as h:
                 config = json.load(jsn)
-                h // '#include "types.hpp"'
+                h // '#include "app.hpp"'
                 h // 'extern CONFIG config;'
                 c.config = S('CONFIG config = {', '};'); c // c.config
                 c.cpuindex = S('.baseCPUIndex = 0,'); c.config // c.cpuindex
