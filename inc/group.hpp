@@ -11,3 +11,8 @@ struct GROUP {
     std::vector<SENSOR*> sensors;  ///<
     //     uint packetSize;               ///< UDP payload size, bytes
 };
+
+class Group : public Worker {
+   public:
+    Group();
+};

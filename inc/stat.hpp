@@ -4,5 +4,5 @@
 
 class Stat : public Worker {
    public:
-    Stat();
+    Stat(pcpp::DpdkDevice *dev) : Worker(dev) {}
 };

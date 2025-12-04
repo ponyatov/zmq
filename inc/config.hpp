@@ -22,3 +22,5 @@ struct CONFIG {
     std::vector<SENSOR*> sensors;  ///< list of all sensors in a system
     static void run();             ///< run preconfigured & static-compiled
 };
+
+extern CONFIG config;

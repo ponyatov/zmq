@@ -3,6 +3,9 @@
 #include "libc.hpp"
 //
 #include "net.hpp"
+#include "worker.hpp"
+#include "stat.hpp"
+#include "garp.hpp"
 //
 #include "sensor.hpp"
 //
@@ -13,6 +16,5 @@
 #include "fifo.hpp"
 #include "main.hpp"
 #include "watch.hpp"
-#include "worker.hpp"
 //
 #include "dev.hpp"
