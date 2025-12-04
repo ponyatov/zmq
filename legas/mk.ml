@@ -15,6 +15,38 @@ ETC = $(CWD)/etc
 "
     ()
 
+let all () =
+    touch "mk/all.mk" ~c:".PHONY: all run watch
+all: bin/$(APP)
+run: bin/$(APP)
+\t$^
+watch: bin/$(APP)
+\t@$^ ; while [ $$? -eq 1 ]; do $^ ; done
+#\t@$^ ; while [ true ]; do $^ ; done
+" ()
+
+let src () =
+  touch "mk/src.mk" ~c:"# .mk files
+MK += Makefile $(wildcard mk/*.mk)
+
+# cmake files
+CM += CMake* $(wildcard cmake/*.cmake)
+
+# C/C++
+C  += $(wildcard src/*.c*)
+H  += $(wildcard inc/*.h*)
+LX += $(wildcard src/*.lex src/*.yacc src/*.ragel)
+# libs
+C  += $(wildcard lib/src/*.c*) $(wildcard lib/*/src/*.c*)
+H  += $(wildcard lib/inc/*.h*) $(wildcard lib/*/inc/*.h*)
+
+# ini
+S  += $(wildcard lib/*.ini) $(wildcard lib/*.f)
+
+# OCaml
+M += $(wildcard lib/*.ml*)
+" ()
+
 let mk () =
   mkd "mk" ();
   let m = open_out "Makefile" in
@@ -41,4 +73,5 @@ let mk () =
   makes |> List.iter (fun r -> Printf.fprintf m "include %s\n" r);
   close_out m;
   var ();
+  all();
   dirmk ()
