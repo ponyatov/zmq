@@ -9,6 +9,10 @@ let github = "github: https://github.com/ponyatov/" ^ app
 let orig = "https://github.com/zeromq/cppzmq"
 let tag = "zmq";;
 
+let user = "dponyatov"
+let devserver = "10.120.100.39"
+let devuser = "dev01"
+
 #use "legas/files.ml"
 
 dirs();;
