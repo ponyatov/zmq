@@ -11,6 +11,9 @@ file(CREATE_LINK ${BIN_OUTPUT_NAME}${CMAKE_EXECUTABLE_SUFFIX}
     ${CMAKE_INSTALL_PREFIX}/${CMAKE_PROJECT_NAME} SYMBOLIC)
 " ()
 
+let src () =
+  touch "cmake/src.cmake" ()
+
 let cmake () =
   cMakeLists ();
   cMakePresets ();
@@ -19,4 +22,5 @@ let cmake () =
   Sys.command "cp ~/em/cmake/any_toolchain.cmake cmake/";
   Sys.command "cp ~/em/cmake/cross.cmake cmake/";
   Sys.command "cp ~/em/cmake/version.cmake cmake/";
+  src()
   install ()
