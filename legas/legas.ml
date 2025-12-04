@@ -31,7 +31,7 @@ doc();
 mk();;
 
 #use "legas/git.ml";;
-
+git();;
 
 let refdirs ?(p = Sys.is_directory) d =
   Sys.readdir d |> Array.to_list
