@@ -2,9 +2,11 @@
 
 int main(int argc, char* argv[]) {  //
     arg(0, argv[0]);
+    Watch::init(argc, argv);
     setup(argc, argv);
     for (int i = 1; i < argc; i++) arg(i, argv[i]);
     Dev::init();
+    Config::init();
     return loop();
 }
 
@@ -17,6 +19,10 @@ void setup(int argc, char* argv[]) {  //
 }
 
 int loop() {  //
-    std::clog << "loop: no\n";
+    std::clog << "loop: \n";
+    while (true) {
+        std::clog << '.';
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
     return 0;
 }
