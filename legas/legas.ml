@@ -67,4 +67,7 @@ let dotfiles () =
   Sys.command "cp ~/em/.prettierrc ./" |> ignore
 
 #use "legas/cpp.ml"
-hpp();cpp();
+hpp();cpp();init();
+
+#use "legas/cmake.ml"
+
