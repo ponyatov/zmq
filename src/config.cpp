@@ -5,8 +5,8 @@ void Config::init() {
     for (auto g : config.groups) {
         std::clog << "\tgroup:" << g->name;
         for (auto s : config.sensors) {
-            std::clog << "\n\t\t" << s->name                 //
-                      << " : " << s->src.ip << ':' << s->src.port     //
+            std::clog << "\n\t\t" << s->name                        //
+                      << " : " << s->src.ip << ':' << s->src.port   //
                       << " -> " << s->dst.ip << ':' << s->dst.port  //
                       << " packet:" << s->packetSize;
         }

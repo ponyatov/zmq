@@ -7,5 +7,6 @@ class Stat : public Worker {
     pcpp::DpdkDevice::DpdkDeviceStats stats;
    public:
     Stat(pcpp::DpdkDevice* dev);
+    static void init();
     bool run(uint32_t coreid);
 };

@@ -7,7 +7,7 @@ int main(int argc, char* argv[]) {  //
     for (int i = 1; i < argc; i++) arg(i, argv[i]);
     Dev::init();
     Config::init();
-    new Stat(Dev::dev);
+    Stat::init();
     Dev::run_workers();
     return loop();
 }

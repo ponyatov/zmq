@@ -8,14 +8,17 @@ Stat::Stat(pcpp::DpdkDevice* dev) : Worker(dev) {
     std::clog << "stat: sheduled\n";
 }
 
+void Stat::init() { stat = new Stat(Dev::dev); }
+
 #define M (1024. * 1024.)
 
 bool Stat::run(uint32_t coreId) {
     assert(Worker::run(coreId));  //
+    uint n = 0;
     while (!_stop) {
         dev->getStatistics(stats);
 
-        std::clog << "stat:"                                              //
+        std::clog << "stat:" << ++n                                       //
                   << " core:" << getCoreId()                              //
                   << " mbuf:" << dev->getAmountOfMbufsInUse()             //
                   << '/' << dev->getAmountOfFreeMbufs()                   //
