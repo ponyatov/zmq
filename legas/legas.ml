@@ -26,14 +26,8 @@ doc();
 #use "legas/mk.ml";;
 mk();;
 
-let gitref = "ref/" ^ tag
+#use "legas/git.ml";;
 
-let git () =
-  if not (Sys.file_exists (Filename.concat gitref "README.md")) then
-    Sys.command
-      ("git clone -o orig -b " ^ tag ^ " --depth 1 " ^ orig ^ " " ^ gitref)
-    = 0
-  else true
 
 let refdirs ?(p = Sys.is_directory) d =
   Sys.readdir d |> Array.to_list

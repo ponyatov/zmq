@@ -47,6 +47,14 @@ S  += $(wildcard lib/*.ini) $(wildcard lib/*.f)
 M += $(wildcard lib/*.ml*)
 " ()
 
+let sync () =
+  touch "mk/sync.mk" ~c:".PHONY: sync
+sync: $(HOME)/.unison/$(APP).prf doc
+\tunison $(APP)
+$(HOME)/.unison/$(APP).prf: $(CWD)/.unison
+\tln -fs $< $@
+" ()
+
 let mk () =
   mkd "mk" ();
   let m = open_out "Makefile" in
@@ -74,4 +82,5 @@ let mk () =
   close_out m;
   var ();
   all();
+  sync();
   dirmk ()
