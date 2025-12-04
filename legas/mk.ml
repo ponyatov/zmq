@@ -15,18 +15,40 @@ ETC = $(CWD)/etc
 "
     ()
 
+let tool () =
+  touch "mk/tool.mk"
+    ~c:
+      "CURL   = curl -L -o
+CF     = clang-format -style=file -i
+GITREF = git clone -o gh --depth 1
+#
+PY     = python3
+PIP    = pip3
+PEP    = autopep8 --ignore $(PEPS) -i
+"
+    ()
+
+let version () =
+   touch "mk/version.mk" ~c:"PCPP_VER = v25.05
+" ()
+
 let all () =
-    touch "mk/all.mk" ~c:".PHONY: all run watch
+  touch "mk/all.mk"
+    ~c:
+      ".PHONY: all run watch
 all: bin/$(APP)
 run: bin/$(APP)
 \t$^
 watch: bin/$(APP)
 \t@$^ ; while [ $$? -eq 1 ]; do $^ ; done
 #\t@$^ ; while [ true ]; do $^ ; done
-" ()
+"
+    ()
 
 let src () =
-  touch "mk/src.mk" ~c:"# .mk files
+  touch "mk/src.mk"
+    ~c:
+      "# .mk files
 MK += Makefile $(wildcard mk/*.mk)
 
 # cmake files
@@ -45,34 +67,41 @@ S  += $(wildcard lib/*.ini) $(wildcard lib/*.f)
 
 # OCaml
 M += $(wildcard lib/*.ml*)
-" ()
+"
+    ()
 
 let sync () =
-  touch "mk/sync.mk" ~c:".PHONY: sync
+  touch "mk/sync.mk"
+    ~c:
+      ".PHONY: sync
 sync: $(HOME)/.unison/$(APP).prf doc
 \tunison $(APP)
 $(HOME)/.unison/$(APP).prf: $(CWD)/.unison
 \tln -fs $< $@
-" ()
+"
+    ()
 
 let install () =
-  touch "mk/install.mk" ~c:".PHONY : install update ref gz
+  touch "mk/install.mk"
+    ~c:
+      ".PHONY : install update ref gz
 install: $(WS)_install doc ref gz
-	$(MAKE) update
+\t$(MAKE) update
 update : $(WS)_update
 ref    : $(RF)
 gz     : $(GZ)
 
 Debian_install:
 Debian_update: apt.$(WS)
-	sudo apt update
-	sudo apt install -uy `cat apt.$(WS)` $(APT)
+\tsudo apt update
+\tsudo apt install -uy `cat apt.$(WS)` $(APT)
 
 Ubuntu_install:
 Ubuntu_update: apt.$(WS)
-	sudo apt update
-	sudo apt install -uy `cat apt.$(WS)` $(APT)
-" ()
+\tsudo apt update
+\tsudo apt install -uy `cat apt.$(WS)` $(APT)
+"
+    ()
 
 let mk () =
   mkd "mk" ();
@@ -89,10 +118,10 @@ let mk () =
       "rule";
       "doc";
       "sync";
+      "net";
       "ref";
       "gz";
       "install";
-      "net";
     ]
     |> List.map (fun f -> Filename.concat "mk" (f ^ ".mk"))
   in
@@ -100,6 +129,8 @@ let mk () =
   makes |> List.iter (fun r -> Printf.fprintf m "include %s\n" r);
   close_out m;
   var ();
-  all();
-  sync();
-  dirmk ()
+  dirmk () tool ();
+  version ();
+  all ();
+  sync ();
+  install ()

@@ -8,7 +8,7 @@ include mk/all.mk
 include mk/rule.mk
 include mk/doc.mk
 include mk/sync.mk
+include mk/net.mk
 include mk/ref.mk
 include mk/gz.mk
 include mk/install.mk
-include mk/net.mk
