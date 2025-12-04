@@ -6,7 +6,7 @@
         "ref/**": true,
     },
     "files.associations": {
-        "*.ini": "properties", "*.f": "properties",
+        "*.ini": "properties", "*.f": "properties"
     },
 
     // editor
@@ -60,6 +60,22 @@
         "args": [ "lib/${workspaceFolderBasename}.ini" ] },
     "cmake.allowCommentsInPresetsFile" : true,
     "cmake.ignoreCMakeListsMissing"    : false,
+
+    // Python
+    // "python.defaultInterpreterPath":  "${workspaceFolder}/bin/python3",
+    // "autopep8.path"                : ["${workspaceFolder}/bin/autopep8"],
+    // "ruff.interpreter"             : ["${workspaceFolder}/bin/python3"],
+    "autopep8.args"                : ["--ignore","E26,E302,E305,E401,E402,E701,E702"],
+    "python.analysis.extraPaths"   : ["${workspaceFolder}/src", "${workspaceFolder}/lib"],
+    "[python]": {
+        "editor.defaultFormatter"  : "ms-python.autopep8",
+        "editor.formatOnSave"      :  true},
+    "ruff.configuration"               : ".ruff.toml",
+    "ruff.lint.preview"                : true,
+    "ruff.format.preview"              : true,
+    "python.testing.pytestArgs"        : ["lib"],
+    "python.testing.unittestEnabled"   : false,
+    "python.testing.pytestEnabled"     : true,
 
     // OCaml (cs3110)
     "[ocaml]": {

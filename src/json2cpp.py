@@ -150,5 +150,5 @@ if __name__ == "__main__":
     jsn, cpp, hpp = sys.argv[1:3 + 1]
     match jsn:
         case 'etc/config.json': config_json(jsn, cpp, hpp)
-        case 'etc/rift_cfg_631.json': riftek_cfg(jsn, cpp, hpp, model=631)
+        case 'etc/rift_cfg_631.json': pass # riftek_cfg(jsn, cpp, hpp, model=631)
         case _: raise NameError(jsn)
