@@ -9,6 +9,9 @@ class Dev {
     static const uint16_t UDP_PORT = 40000;
     static uint16_t MTU;
 
+    friend class Group;
+    friend class GARP;
+
     static const pcpp::MacAddress broadcast;
     static const pcpp::MacAddress sendMac;
     static const pcpp::IPv4Address sendIp;

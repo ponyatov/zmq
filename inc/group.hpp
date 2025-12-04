@@ -15,10 +15,12 @@ struct GROUP {
 class Sender;
 
 class Group : public Worker {
-    friend class Sender;
-    GROUP* g;
-    Sender* sender;
+    GROUP* g;              ///< @ref GROUP configuration
+    Sender* sender;        ///< DPDK sender for every Group
+    zmq::socket_t pusher;  ///< ZMQ push socket
+
    public:
     Group(pcpp::DpdkDevice* dev, GROUP* g);
     bool run(uint32_t coreid);
+    std::string name() const { return g->name; }
 };

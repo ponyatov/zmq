@@ -8,6 +8,7 @@ int main(int argc, char* argv[]) {  //
     Dev::init();
     Config::init();
     Stat::init();
+    GARP::init();
     Dev::run_workers();
     return loop();
 }

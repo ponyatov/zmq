@@ -8,6 +8,7 @@ class Worker : public pcpp::DpdkWorkerThread {
     static uint32_t coreMask;
 
    protected:
+    friend class Sender;
     pcpp::DpdkDevice *dev;
     bool _stop;
     uint32_t _coreId;

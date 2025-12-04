@@ -9,6 +9,7 @@
 //
 #include "sensor.hpp"
 //
+#include <zmq.hpp>
 #include "group.hpp"
 #include "sender.hpp"
 //
