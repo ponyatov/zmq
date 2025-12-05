@@ -12,16 +12,16 @@ bool Sender::run(uint32_t coreId) {
     // static const uint buf_sz = 0x2;
     // pcpp::MBufRawPacket* mbuf[buf_sz];
     while (!_stop) {
-        std::clog << "sender: zmq:" << zmq;
-        std::clog << "\n";
+        // std::clog << "sender: zmq:" << zmq << "\n";
         // collect
         // for (uint idx = 0; idx < buf_sz; idx++) {
         zmq::message_t message;
-        while (!puller->recv(message, zmq::recv_flags::dontwait)) {
-            std::clog << ".";
-            std::this_thread::sleep_for(std::chrono::milliseconds(111));
-        }
-        std::clog << "\nsender: data[" << message.size() << "]\n";
+        assert(puller->recv(message, zmq::recv_flags::none));
+        // while (!puller->recv(message, zmq::recv_flags::none)) {
+        //     std::clog << ".";
+        //     // std::this_thread::sleep_for(std::chrono::milliseconds(111));
+        // }
+        // std::clog << "\nsender: data[" << message.size();
         pcpp::RawPacket* raw = new pcpp::RawPacket(  //
             (uint8_t*)message.data(), message.size(), ts, true);
         // dev->sendPacket(*raw);
@@ -40,7 +40,8 @@ bool Sender::run(uint32_t coreId) {
         // burst send
         // dev->sendPackets(mbuf, buf_sz);
         //
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // std::clog << "]\n";
+        // std::this_thread::sleep_for(std::chrono::seconds(1));
     }
     return terminate();
 }

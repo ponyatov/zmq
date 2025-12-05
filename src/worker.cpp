@@ -28,7 +28,7 @@ uint32_t Worker::getCoreId() const { return dev->getCurrentCoreId(); }
 
 void Worker::wait_inactive() {
     int workers = Worker::active.load();
-    while (workers) {
+    while (workers>0) {
         fprintf(stderr, "\nwait workers: %i\n", workers);
         workers = Worker::active.load();
         std::this_thread::sleep_for(std::chrono::seconds(1));

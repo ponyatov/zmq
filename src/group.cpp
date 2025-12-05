@@ -11,6 +11,8 @@ Group::Group(pcpp::DpdkDevice* dev, GROUP* g)
     pusher->bind(sender->zmq);
 }
 
+#include "config.json.hpp"
+
 bool Group::run(uint32_t coreId) {
     assert(Worker::run(coreId));
     //
@@ -23,22 +25,20 @@ bool Group::run(uint32_t coreId) {
     packet.addLayer(&ipv4_layer);
     pcpp::UdpLayer udp_layer(Dev::UDP_PORT, Dev::UDP_PORT);
     packet.addLayer(&udp_layer);
-    pcpp::PayloadLayer payload_layer("12345678");
+    pcpp::PayloadLayer payload_layer(S_1_1.start, S_1_1.packetSize);
     packet.addLayer(&payload_layer);
     //
     while (!_stop) {
-        std::clog << "\ngroup:" << g->name;
+        // std::clog << "\ngroup:" << g->name;
         //
         packet.computeCalculateFields();
-        // dev->sendPacket(packet);  // debug
         //
         pcpp::RawPacket* raw = packet.getRawPacket();
-        std::clog << " size:" << raw->getFrameLength();
-
-        pusher->send(raw->getRawData(), raw->getRawDataLen());
+        pusher->send(zmq::const_buffer(  //
+            raw->getRawData(), raw->getRawDataLen()));
         //
-        std::clog << "\n";
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        // std::clog << "\n";
+        // std::this_thread::sleep_for(interval);
     }
     return terminate();
 }

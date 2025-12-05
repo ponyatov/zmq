@@ -18,6 +18,7 @@ class Group : public Worker {
     GROUP* g;               ///< @ref GROUP configuration
     Sender* sender;         ///< DPDK sender for every Group
     zmq::socket_t* pusher;  ///< ZMQ push socket
+    static const std::chrono::milliseconds interval;
 
    public:
     Group(pcpp::DpdkDevice* dev, GROUP* g);
