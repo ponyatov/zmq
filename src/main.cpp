@@ -6,9 +6,9 @@ int main(int argc, char* argv[]) {  //
     setup(argc, argv);
     for (int i = 1; i < argc; i++) arg(i, argv[i]);
     Dev::init();
-    Config::init();
-    Stat::init();
     GARP::init();
+    Stat::init();
+    Config::init();
     Dev::run_workers();
     return loop();
 }

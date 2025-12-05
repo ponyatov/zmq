@@ -2,7 +2,9 @@
 
 const std::chrono::seconds GARP::interval(15);
 const std::chrono::seconds Stat::interval(1);
-const std::chrono::milliseconds Group::interval(1);
+const std::chrono::milliseconds Group::interval(1111);
+
+const uint Sender::burst_sz = 64;
 
 const pcpp::MacAddress Dev::broadcast(BROADCAST);
 const pcpp::MacAddress Dev::sendMac(SENDMAC);

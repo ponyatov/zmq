@@ -3,13 +3,16 @@
 #include "libc.hpp"
 //
 #include "net.hpp"
+//
 #include "worker.hpp"
-#include "stat.hpp"
+//
 #include "garp.hpp"
+#include "stat.hpp"
 //
 #include "sensor.hpp"
 //
 #include <zmq.hpp>
+
 #include "group.hpp"
 #include "sender.hpp"
 //

@@ -1,11 +1,7 @@
 #include "app.hpp"
 
-Group::Group(pcpp::DpdkDevice* dev, GROUP* g)
-    : Worker(dev),
-      g(g)
-//   sender(new Sender(dev, this)),
-//   pusher(Sender::context, zmq::socket_type::push)
-{
+Group::Group(pcpp::DpdkDevice* dev, GROUP* g) : Worker(dev), g(g) {
+    // init order required:
     assert(sender = new Sender(dev, this));
     assert(pusher = new zmq::socket_t(Dev::context, zmq::socket_type::push));
     pusher->bind(sender->zmq);
@@ -40,8 +36,9 @@ bool Group::run(uint32_t coreId) {
         packet.computeCalculateFields();
         //
         raw = packet.getRawPacket();
-        pusher->send(zmq::const_buffer(  //
-            raw->getRawData(), raw->getRawDataLen()));
+        // pusher->send(zmq::buffer(raw->getRawData(), raw->getRawDataLen()));
+        // pusher->send(zmq::buffer(S_1_1.start, S_1_1.size));
+        pusher->send(zmq::buffer(S_1_1.start, 18500 * 28));
         //
         // std::clog << "\n";
         // std::this_thread::sleep_for(interval);
