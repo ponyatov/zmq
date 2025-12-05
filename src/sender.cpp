@@ -7,41 +7,24 @@ Sender::Sender(pcpp::DpdkDevice* dev, Group* g) : Worker(dev), g(g) {
 }
 
 bool Sender::run(uint32_t coreId) {
-    assert(Worker::run(coreId));  //
-    timespec ts = {0x12345678};
-    // static const uint buf_sz = 0x2;
-    // pcpp::MBufRawPacket* mbuf[buf_sz];
+    assert(Worker::run(coreId));
+    timespec ts = {0x12345678};            // fake timestamp
+    static const uint burst_sz = 64;       // pcpp recommended
+    pcpp::MBufRawPacket* burst[burst_sz];  // burst buffer
+    pcpp::RawPacket* raw;
+    zmq::message_t message;
     while (!_stop) {
         // std::clog << "sender: zmq:" << zmq << "\n";
         // collect
-        // for (uint idx = 0; idx < buf_sz; idx++) {
-        zmq::message_t message;
-        assert(puller->recv(message, zmq::recv_flags::none));
-        // while (!puller->recv(message, zmq::recv_flags::none)) {
-        //     std::clog << ".";
-        //     // std::this_thread::sleep_for(std::chrono::milliseconds(111));
-        // }
-        // std::clog << "\nsender: data[" << message.size();
-        pcpp::RawPacket* raw = new pcpp::RawPacket(  //
-            (uint8_t*)message.data(), message.size(), ts, true);
-        // dev->sendPacket(*raw);
-        pcpp::MBufRawPacket* mbuf = new pcpp::MBufRawPacket();
-        // mbuf->init();
-        mbuf->initFromRawPacket(raw, Dev::dev);
-        dev->sendPacket(*mbuf);
-
-        // pcpp::MBufRawPacket* mbuf = new pcpp::MBufRawPacket();
-        // mbuf->init(g->dev);
-        // // assert(mbuf[idx]->init(g->dev));
-        // // mbuf[idx]->setRawData((uint8_t*)message.data(), message.size(),
-        // ts);
-        // mbuf->setRawData((uint8_t*)message.data(), message.size(), ts);
-        // }
+        for (uint idx = 0; idx < burst_sz; idx++) {
+            assert(puller->recv(message, zmq::recv_flags::none));
+            raw = new pcpp::RawPacket(  //
+                (uint8_t*)message.data(), message.size(), ts, true);
+            burst[idx] = new pcpp::MBufRawPacket();
+            burst[idx]->initFromRawPacket(raw, Dev::dev);
+        }
         // burst send
-        // dev->sendPackets(mbuf, buf_sz);
-        //
-        // std::clog << "]\n";
-        // std::this_thread::sleep_for(std::chrono::seconds(1));
+        dev->sendPackets(burst, burst_sz);
     }
     return terminate();
 }

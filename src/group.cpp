@@ -17,6 +17,7 @@ bool Group::run(uint32_t coreId) {
     assert(Worker::run(coreId));
     //
     pcpp::Packet packet;
+    pcpp::RawPacket* raw;
     pcpp::EthLayer eth_layer(Dev::sendMac, Dev::recvMac, PCPP_ETHERTYPE_IP);
     packet.addLayer(&eth_layer);
     pcpp::IPv4Layer ipv4_layer(Dev::sendIp, Dev::recvIp);
@@ -28,12 +29,17 @@ bool Group::run(uint32_t coreId) {
     pcpp::PayloadLayer payload_layer(S_1_1.start, S_1_1.packetSize);
     packet.addLayer(&payload_layer);
     //
+    uint8_t split_ = 0;
+    const uint8_t split = 8;
+    auto udp_hdr = udp_layer.getUdpHeader();
+    //
     while (!_stop) {
         // std::clog << "\ngroup:" << g->name;
         //
+        udp_hdr->portDst = htobe16(Dev::UDP_PORT + ((++split_) % split));
         packet.computeCalculateFields();
         //
-        pcpp::RawPacket* raw = packet.getRawPacket();
+        raw = packet.getRawPacket();
         pusher->send(zmq::const_buffer(  //
             raw->getRawData(), raw->getRawDataLen()));
         //
