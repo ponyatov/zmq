@@ -1,5 +1,6 @@
 #include "stat.hpp"
 
+
 Stat* Stat::stat = nullptr;
 
 Stat::Stat(pcpp::DpdkDevice* dev) : Worker(dev) {
@@ -28,7 +29,7 @@ bool Stat::run(uint32_t coreId) {
                   << " mbps:" << stats.aggregatedTxStats.bytesPerSec / M  //
                   << "\n";
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(interval);
     }
     return terminate();
 }

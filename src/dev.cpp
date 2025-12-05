@@ -1,15 +1,11 @@
 #include "app.hpp"
 
+zmq::context_t Dev::context(1);
+
 uint8_t Dev::coreNum = 1;
 pcpp::CoreMask Dev::coreMask;
 pcpp::DpdkDevice *Dev::dev = nullptr;
 uint16_t Dev::MTU = 1500;
-
-const pcpp::MacAddress Dev::broadcast(BROADCAST);
-const pcpp::MacAddress Dev::sendMac(SENDMAC);
-const pcpp::MacAddress Dev::recvMac(RECVMAC);
-const pcpp::IPv4Address Dev::sendIp(SENDIP);
-const pcpp::IPv4Address Dev::recvIp(RECVIP);
 
 void Dev::init() {
     std::clog << "dev:";

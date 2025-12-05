@@ -15,9 +15,9 @@ struct GROUP {
 class Sender;
 
 class Group : public Worker {
-    GROUP* g;              ///< @ref GROUP configuration
-    Sender* sender;        ///< DPDK sender for every Group
-    zmq::socket_t pusher;  ///< ZMQ push socket
+    GROUP* g;               ///< @ref GROUP configuration
+    Sender* sender;         ///< DPDK sender for every Group
+    zmq::socket_t* pusher;  ///< ZMQ push socket
 
    public:
     Group(pcpp::DpdkDevice* dev, GROUP* g);

@@ -1,7 +1,5 @@
 #include "stat.hpp"
 
-const std::chrono::seconds GARP::interval(5);
-
 GARP* GARP::garp = nullptr;
 
 void GARP::init() { garp = new GARP(Dev::dev); }

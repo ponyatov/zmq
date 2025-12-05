@@ -24,8 +24,12 @@ class Dev {
     static pcpp::CoreMask coreMask;
     static const uint port = 0;
 
+    friend class Group;
+    friend class Sender;
+    static zmq::context_t context;
+
    public:
-    static pcpp::DpdkDevice *dev;
+    static pcpp::DpdkDevice* dev;
     Dev();
     ~Dev();
     static void init();

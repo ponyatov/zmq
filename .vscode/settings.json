@@ -40,10 +40,10 @@
     // C++
     "[c]"  : {
         "editor.defaultFormatter" : "xaver.clang-format",
-        "editor.formatOnSave": false },
+        "editor.formatOnSave": true },
     "[cpp]": {
         "editor.defaultFormatter" : "xaver.clang-format",
-        "editor.formatOnSave": false },
+        "editor.formatOnSave": true },
     "C_Cpp.default.configurationProvider": "ms-vscode.cmake-tools",
     "C_Cpp.files.exclude": { "ref": true },
 
