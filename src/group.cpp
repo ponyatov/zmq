@@ -31,8 +31,10 @@ bool Group::run(uint32_t coreId) {
     static const uint8_t MF_flag = 0b00100000;  // `More Fragments` flag mask
     //
     for (auto s : g->sensors) s->data = s->start;
+    period = std::chrono::nanoseconds(long(10e9 / g->freq));
     //
     while (!_stop) {
+        start_time = std::chrono::high_resolution_clock::now();
         for (auto s : g->sensors) {
             packet.removeAllLayersAfter(&eth_layer);
             auto ipv4_layer = new pcpp::IPv4Layer(s->src.ip, s->dst.ip);
@@ -94,7 +96,16 @@ bool Group::run(uint32_t coreId) {
                 // // pusher->send(zmq::buffer(S_1_1.start, 18500 * 28));
             }  // fragment
         }  // sensor
-        std::this_thread::sleep_for(interval);
+        end_time = std::chrono::high_resolution_clock::now();
+        duration = end_time - start_time;
+        std::clog  //
+                   //            // << "\tstart:" << start_time  //
+                   //            //           << " end:" << end_time       //
+            << " duration:" << duration << "\n";
+        if (period < duration) {
+            std::chrono::nanoseconds wait = period - duration;
+            std::this_thread::sleep_for(wait);
+        }
     }  // worker
     //
     return terminate();

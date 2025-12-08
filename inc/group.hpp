@@ -18,8 +18,15 @@ class Group : public Worker {
     GROUP* g;               ///< @ref GROUP configuration
     Sender* sender;         ///< DPDK sender for every Group
     zmq::socket_t* pusher;  ///< ZMQ push socket
-    static const std::chrono::milliseconds interval;
 
+    /// @name metrics
+    /// @{
+    std::chrono::time_point<std::chrono::high_resolution_clock> start_time;
+    std::chrono::time_point<std::chrono::high_resolution_clock> end_time;
+    std::chrono::nanoseconds duration;  ///< current loop duration
+    std::chrono::nanoseconds period;    ///< computes from config.group.freq
+
+    /// @}
    public:
     Group(pcpp::DpdkDevice* dev, GROUP* g);
     bool run(uint32_t coreid);
