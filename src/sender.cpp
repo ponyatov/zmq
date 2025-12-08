@@ -31,6 +31,7 @@ bool Sender::run(uint32_t coreId) {
         // burst send
         // dev->sendPackets(burst, burst_sz);
         dev->sendPacket(*raw);
+        Sender::bytes += raw->getRawDataLen();
     }
     return terminate();
 }

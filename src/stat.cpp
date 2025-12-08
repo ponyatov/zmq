@@ -27,7 +27,7 @@ bool Stat::run(uint32_t coreId) {
                   << " pps:" << stats.aggregatedTxStats.packetsPerSec         //
                   << " mbps:" << stats.aggregatedTxStats.bytesPerSec / M      //
                   << " gbit:" << stats.aggregatedTxStats.bytesPerSec / G * 8  //
-                  << " bytes:" << Sender::bytes / G * 8                       //
+                  << " gbytes:" << Sender::bytes / G                          //
                   << "\n";
 
         Sender::bytes = 0;

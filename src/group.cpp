@@ -36,28 +36,24 @@ bool Group::run(uint32_t coreId) {
     while (!_stop) {
         start_time = std::chrono::high_resolution_clock::now();
         for (auto s : g->sensors) {
+            //
+            ipId++;
             packet.removeAllLayersAfter(&eth_layer);
             auto ipv4_layer = new pcpp::IPv4Layer(s->src.ip, s->dst.ip);
             packet.addLayer(ipv4_layer);
             udp_frame.src = htobe16(s->src.port);
             udp_frame.dst = htobe16(s->dst.port);
             udp_frame.length = htobe16(s->packetSize + 8);
-            assert(s->packetSize == 1400 + 56);
-            //
-            ipId++;
-            std::clog << "sensor:" << s->name << "\n";
+            // std::clog << "sensor:" << s->name << "\n";
             for (uint16_t offset = 0, fragment_size = 0; offset < s->packetSize;
                  offset += FTU) {
                 //
-                if (s->packetSize <= FTU)  //
-                    fragment_size = s->packetSize;
-                else {
-                    if (offset + FTU < s->packetSize)
-                        fragment_size = FTU;
-                    else
-                        fragment_size = s->packetSize % FTU;
-                }
-                std::clog << "\tfragment_size:" << fragment_size << "\n";
+                if (offset + FTU <= s->packetSize)
+                    fragment_size = FTU;
+                else
+                    fragment_size = s->packetSize % FTU;
+                // std::clog << "\tfragment_size:" << fragment_size;
+                assert(fragment_size);
                 memcpy(udp_frame.data, &s->data, fragment_size);
                 s->data += fragment_size;
                 if (s->data > s->start + s->size) s->data = s->start;
@@ -69,6 +65,7 @@ bool Group::run(uint32_t coreId) {
                     assert(data_layer = new pcpp::PayloadLayer(  //
                                udp_frame.data, fragment_size));
                 }
+                packet.removeAllLayersAfter(ipv4_layer);
                 packet.addLayer(data_layer);
                 //
                 packet.computeCalculateFields();
@@ -90,22 +87,18 @@ bool Group::run(uint32_t coreId) {
                     htobe16(pcpp::computeChecksum(&ip_scalar, 1));
                 //
                 raw = packet.getRawPacket();
-                pusher->send(
-                    zmq::buffer(raw->getRawData(), raw->getRawDataLen()));
+                pusher->send(zmq::buffer(  //
+                    raw->getRawData(), raw->getRawDataLen()));
                 // // pusher->send(zmq::buffer(S_1_1.start, S_1_1.size));
                 // // pusher->send(zmq::buffer(S_1_1.start, 18500 * 28));
             }  // fragment
         }  // sensor
         end_time = std::chrono::high_resolution_clock::now();
         duration = end_time - start_time;
-        std::clog  //
-                   //            // << "\tstart:" << start_time  //
-                   //            //           << " end:" << end_time       //
-            << " duration:" << duration << "\n";
-        if (period < duration) {
-            std::chrono::nanoseconds wait = period - duration;
-            std::this_thread::sleep_for(wait);
-        }
+        // if (period > duration) std::this_thread::sleep_for(period -
+        // duration);
+
+        std::this_thread::sleep_for(std::chrono::seconds(g->freq));
     }  // worker
     //
     return terminate();
