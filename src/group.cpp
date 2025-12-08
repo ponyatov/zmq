@@ -5,6 +5,14 @@ Group::Group(pcpp::DpdkDevice* dev, GROUP* g) : Worker(dev), g(g) {
     assert(sender = new Sender(dev, this));
     assert(pusher = new zmq::socket_t(Dev::context, zmq::socket_type::push));
     pusher->bind(sender->zmq);
+    std::clog << "\tgroup:" << g->name;
+    for (auto s : g->sensors) {
+        std::clog << "\n\t\t" << s->name                        //
+                  << " : " << s->src.ip << ':' << s->src.port   //
+                  << " -> " << s->dst.ip << ':' << s->dst.port  //
+                  << " packet:" << s->packetSize;
+    }
+    std::clog << "\n";
 }
 
 #include "config.json.hpp"
@@ -95,10 +103,10 @@ bool Group::run(uint32_t coreId) {
         }  // sensor
         end_time = std::chrono::high_resolution_clock::now();
         duration = end_time - start_time;
-        // if (period > duration)
-        //     std::this_thread::sleep_for(period - duration);
-        // else
-        //     std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+        if (period > duration)
+            std::this_thread::sleep_for(period - duration);
+        else
+            std::this_thread::sleep_for(std::chrono::nanoseconds(1));
     }  // worker
     //
     return terminate();

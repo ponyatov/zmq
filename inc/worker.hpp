@@ -2,6 +2,10 @@
 
 #include "app.hpp"
 
+/// @defgroup worker worker
+
+/// @brief common worker model
+/// @ingroup worker
 class Worker : public pcpp::DpdkWorkerThread {
     friend class Dev;
     static std::vector<pcpp::DpdkWorkerThread *> threads;

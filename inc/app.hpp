@@ -18,7 +18,6 @@
 //
 #include "config.hpp"
 //
-#include "fifo.hpp"
 #include "main.hpp"
 #include "watch.hpp"
 //

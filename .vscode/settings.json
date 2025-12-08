@@ -4,6 +4,7 @@
     },
     "files.watcherExclude": {
         "ref/**": true,
+        // "bin/**": true, "tmp/**": true,
     },
     "files.associations": {
         "*.ini": "properties", "*.f": "properties"
@@ -57,7 +58,7 @@
     "cmake.saveBeforeBuild" :  true,
     "cmake.debugConfig"     : {
         "cwd" :   "${workspaceFolder}",
-        "args": [ "lib/${workspaceFolderBasename}.ini" ] },
+        "args": [ "etc/config.json" ] },
     "cmake.allowCommentsInPresetsFile" : true,
     "cmake.ignoreCMakeListsMissing"    : false,
 

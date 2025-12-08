@@ -14,6 +14,13 @@ H  += $(wildcard lib/inc/*.h*) $(wildcard lib/*/inc/*.h*)
 
 # ini
 S  += $(wildcard lib/*.ini) $(wildcard lib/*.f)
+S   = $(wildcard etc/*.json)
 
 # OCaml
 M += $(wildcard lib/*.ml*)
+
+# Python
+P += $(wildcard src/*.py) $(wildcard lib/*.py)
+
+# JavaScript
+J += $(wildcard js/*.*js)

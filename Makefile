@@ -12,3 +12,4 @@ include mk/net.mk
 include mk/ref.mk
 include mk/gz.mk
 include mk/install.mk
+include mk/influx.mk

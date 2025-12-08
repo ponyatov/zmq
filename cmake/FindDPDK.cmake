@@ -1,4 +1,4 @@
-# include(FindPackageHandleStandardArgs)
+include(FindPackageHandleStandardArgs)
 
 # ~~~
 # - Try to find DPDK include dirs and libraries
@@ -12,7 +12,7 @@
 #  DPDK_VERSION, the version of the library
 # ~~~
 
-find_package(PkgConfig REQUIRED)
+find_package(PkgConfig QUIET)
 pkg_check_modules(DPDK REQUIRED libdpdk>=22.11)
 # if(PKG_CONFIG_FOUND)
 #   pkg_check_modules(DPDK QUIET IMPORTED_TARGET libdpdk>=22.11)

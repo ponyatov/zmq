@@ -3,4 +3,4 @@ doxygen
 g++ cmake pkg-config clang-format
 gdb gdbserver valgrind
 flex bison ragel libreadline-dev
-telegraf 
+influxdb telegraf 
