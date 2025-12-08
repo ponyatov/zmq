@@ -31,7 +31,7 @@ bool Group::run(uint32_t coreId) {
     static const uint8_t MF_flag = 0b00100000;  // `More Fragments` flag mask
     //
     for (auto s : g->sensors) s->data = s->start;
-    period = std::chrono::nanoseconds(long(10e9 / g->freq));
+    period = std::chrono::nanoseconds(long(1e9 / g->freq));
     //
     while (!_stop) {
         start_time = std::chrono::high_resolution_clock::now();
@@ -95,10 +95,10 @@ bool Group::run(uint32_t coreId) {
         }  // sensor
         end_time = std::chrono::high_resolution_clock::now();
         duration = end_time - start_time;
-        // if (period > duration) std::this_thread::sleep_for(period -
-        // duration);
-
-        std::this_thread::sleep_for(std::chrono::seconds(g->freq));
+        // if (period > duration)
+        //     std::this_thread::sleep_for(period - duration);
+        // else
+        //     std::this_thread::sleep_for(std::chrono::nanoseconds(1));
     }  // worker
     //
     return terminate();
