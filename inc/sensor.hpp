@@ -24,5 +24,8 @@ struct SENSOR {
     uint packetSize;  ///< single packet size, bytes
     uint packets;     ///< number of packets/data file
     uint16_t freq;    ///< poll frequency
-                      /// @}
+
+    /// @}
+
+    uint8_t* data;  ///< data read pointer
 };

@@ -21,35 +21,16 @@ bool Sender::run(uint32_t coreId) {
     //
     while (!_stop) {
         auto res = puller->recv(message, zmq::recv_flags::none);
-        if (res) Sender::bytes += res.value();
         //
+        // for (uint idx = 0; idx < burst_sz; idx++) {
         raw = new pcpp::RawPacket(  //
             (uint8_t*)message.data(), message.size(), ts, true);
-        // // collect
-        // for (uint idx = 0; idx < burst_sz; idx++) {
-        //     raw = new pcpp::RawPacket(  //
-        //         );
-        //     burst[idx] = new pcpp::MBufRawPacket();
-        //     burst[idx]->initFromRawPacket(raw, Dev::dev);
-        // }
-        // for (bool more = true; more;) {
-        //     auto res = puller->recv(message, zmq::recv_flags::none);
-        //     more = res.value() & zmq::recv_flags::more;
-        // }
-
-        // std::cout << "sender burst:" << message.size() << "\n";
-        // assert(message.size() == Sender::burst_sz * frame_sz);
-        // memcpy(buf, message.data(), message.size());
-        // // split byteblock into mbuf[]
-        // uint offset = 0;
-        // for (uint i = 0; i < Sender::burst_sz; i++) {
-        //     burst[i] = new pcpp::MBufRawPacket();
-        //     burst[i]->init(Dev::dev);
-        //     burst[i]->initWithRawData(&buf[offset], frame_sz, ts);
-        //     offset += frame_sz;
-        // }
-        // // burst send
-        // assert(burst_sz == dev->sendPackets(burst, burst_sz));
+        // collect
+        // burst[idx] = new pcpp::MBufRawPacket();
+        // burst[idx]->initFromRawPacket(raw, Dev::dev);
+        // burst send
+        // dev->sendPackets(burst, burst_sz);
+        dev->sendPacket(*raw);
     }
     return terminate();
 }
