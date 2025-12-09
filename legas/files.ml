@@ -34,8 +34,7 @@ g++ cmake pkg-config clang-format
 gdb gdbserver valgrind
 flex bison ragel libreadline-dev
 "
-    ()
-  touch "apt.Ubuntu"
+    () touch "apt.Ubuntu"
     ~c:
       "git make curl fzf
 doxygen
@@ -49,7 +48,7 @@ let readme () =
   (* *)
   touch "README.md"
     ~c:
-      ("# `" ^ app ^ "` " ^ tag ^ "\n## " ^ title ^ "\n\n(c) " ^ author ^ " <<"
-     ^ email ^ ">> " ^ Int.to_string year ^ " " ^ license ^ "\n\n" ^ github
-     ^ "\n" ^ about)
+      ("# `" ^ app ^ "` " ^ version ^ "\n## " ^ title ^ "\n\n(c) " ^ author
+     ^ " <<" ^ email ^ ">> " ^ Int.to_string year ^ " " ^ license ^ "\n\n"
+     ^ github ^ "\n" ^ about)
     ()
