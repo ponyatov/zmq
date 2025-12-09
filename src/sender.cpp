@@ -3,7 +3,7 @@
 uint Sender::bytes = 0;
 
 Sender::Sender(pcpp::DpdkDevice* dev) : Worker(dev) {
-    assert(puller = new zmq::socket_t(Dev::context, zmq::socket_type::pull));
+    assert(puller = new zmq::socket_t(Sender::context, zmq::socket_type::pull));
     puller->connect(zmq);
 }
 
@@ -42,5 +42,7 @@ bool Sender::run(uint32_t coreId) {
         Sender::bytes += message.size();
 #endif  // MQTEST
     }
+    puller->close();
+    context.close();
     return terminate();
 }

@@ -22,15 +22,17 @@ bool Stat::run(uint32_t coreId) {
     while (!_stop) {
         dev->getStatistics(stats);
 
-        std::clog << "stat:" << ++n                                           //
-                  << " core:" << getCoreId()                                  //
-                  << " mbuf:" << dev->getAmountOfMbufsInUse()                 //
-                  << '/' << dev->getAmountOfFreeMbufs()                       //
-                  << " packets:" << stats.aggregatedTxStats.packets           //
-                  << " pps:" << stats.aggregatedTxStats.packetsPerSec         //
-                  << " mbps:" << stats.aggregatedTxStats.bytesPerSec / M      //
-                  << " gbit:" << stats.aggregatedTxStats.bytesPerSec / G * 8  //
-                  << " gbytes:" << Sender::bytes / G                          //
+        std::clog << "stat:" << ++n                                       //
+                  << " core:" << getCoreId()                              //
+                  << " mbuf:" << dev->getAmountOfMbufsInUse()             //
+                  << '/' << dev->getAmountOfFreeMbufs()                   //
+                  << " packets:" << stats.aggregatedTxStats.packets       //
+                  << " pps:" << stats.aggregatedTxStats.packetsPerSec     //
+                  << " mbps:" << stats.aggregatedTxStats.bytesPerSec / M  //
+                  << " gbit:" << std::setprecision(4)                     //
+                  << (stats.aggregatedTxStats.bytesPerSec / G * 8)        //
+                  << " mq:" << std::setprecision(4)                       //
+                  << (Sender::bytes / G * 8)                              //
                   << "\n";
 
         Sender::bytes = 0;

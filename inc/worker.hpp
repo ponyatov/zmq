@@ -23,7 +23,7 @@ class Worker : public pcpp::DpdkWorkerThread {
     Worker(pcpp::DpdkDevice *dev);  ///< worker preinit
     bool run(uint32_t coreid);      ///< run worker
     void stop();                    ///< stop worker (async)
-    static void wait_inactive();     ///< wait all threads stopped
+    static void wait_inactive();    ///< wait all threads stopped
     uint32_t getCoreId() const;     ///< get CPU core bound
     bool schedule();                ///< wait until next send shedule
     static bool any_started;        ///< flag shows any worker was started

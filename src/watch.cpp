@@ -9,7 +9,7 @@ void Watch::init(int argc, char *argv[]) {
 }
 
 void Watch::signal_handler(int signal) {
-    fprintf(stderr,"'\n\nsignal:%i\n\n",signal);
+    fprintf(stderr, "'\n\nsignal:%i\n\n", signal);
     switch (signal) {
         case SIGSTOP:
             std::cerr << "\nSIGSTOP\n";

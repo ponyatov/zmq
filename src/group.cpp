@@ -2,7 +2,7 @@
 
 Group::Group(pcpp::DpdkDevice* dev, GROUP* g) : Worker(dev), g(g) {
     // init order required:
-    assert(pusher = new zmq::socket_t(Dev::context, zmq::socket_type::push));
+    assert(pusher = new zmq::socket_t(Sender::context, zmq::socket_type::push));
     pusher->bind(sender->zmq);
     std::clog << "\tgroup:" << g->name;
     for (auto s : g->sensors) {
@@ -113,5 +113,6 @@ bool Group::run(uint32_t coreId) {
 #endif  // MQTEST
     }  // worker
     //
+    pusher->close();
     return terminate();
 }
