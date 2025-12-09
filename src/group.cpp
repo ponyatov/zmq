@@ -2,7 +2,6 @@
 
 Group::Group(pcpp::DpdkDevice* dev, GROUP* g) : Worker(dev), g(g) {
     // init order required:
-    assert(sender = new Sender(dev, this));
     assert(pusher = new zmq::socket_t(Dev::context, zmq::socket_type::push));
     pusher->bind(sender->zmq);
     std::clog << "\tgroup:" << g->name;

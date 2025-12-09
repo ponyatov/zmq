@@ -13,7 +13,7 @@ git remote add flic git@gitflic.ru:dponyatov/zmq.git
 
 - generator: dev01@10.110.1.106
   - dpdk01
-  - old    :       10.120.100.39
-- server   : dev01@10.110.1.105
-  - server2
+  - 100g   :       10.120.100.39
+- server2  : dev01@10.110.1.105
   - old    :       10.120.100.51
+  - 100g   :       10.120.100.51

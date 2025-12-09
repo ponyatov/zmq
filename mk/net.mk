@@ -1,11 +1,11 @@
+# SHARK_FILTER = -f ip
 .PHONY: shark
 shark:
-	ssh dev01@10.120.100.51 dumpcap -i enp1s0np1 -f ip -w - | wireshark -k -i -
-#	ssh dev01@10.120.100.51 tshark -i enp1s0np1
+	ssh dev01@10.110.1.105 dumpcap -i enp1s0np0 $(SHARK_FILTER) -w - | wireshark -k -i -
 
 .PHONY: recv
 recv:
-	ssh dev01@10.120.100.51 node reciever/server_cluster.js -d
+	ssh dev01@10.110.1.105 node reciever/server_cluster.js -d
 
 PCPP_CFG += -DPCAPPP_BUILD_EXAMPLES=OFF
 PCPP_CFG += -DPCAPPP_BUILD_TESTS=OFF

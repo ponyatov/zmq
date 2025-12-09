@@ -2,11 +2,16 @@
 
 uint Sender::bytes = 0;
 
-Sender::Sender(pcpp::DpdkDevice* dev, Group* g) : Worker(dev), g(g) {
-    // zmq = "inproc://" + g->name();
-    zmq = "ipc://" + g->name();
+Sender::Sender(pcpp::DpdkDevice* dev) : Worker(dev) {
     assert(puller = new zmq::socket_t(Dev::context, zmq::socket_type::pull));
     puller->connect(zmq);
+}
+
+Sender* Sender::sender = nullptr;
+
+void Sender::init(pcpp::DpdkDevice* dev) {  //
+    assert(!sender);
+    assert(sender = new Sender(dev));
 }
 
 bool Sender::run(uint32_t coreId) {
@@ -25,12 +30,14 @@ bool Sender::run(uint32_t coreId) {
         // for (uint idx = 0; idx < burst_sz; idx++) {
         raw = new pcpp::RawPacket(  //
             (uint8_t*)message.data(), message.size(), ts, true);
-        // collect
-        // burst[idx] = new pcpp::MBufRawPacket();
-        // burst[idx]->initFromRawPacket(raw, Dev::dev);
-        // burst send
-        // dev->sendPackets(burst, burst_sz);
+// collect
+// burst[idx] = new pcpp::MBufRawPacket();
+// burst[idx]->initFromRawPacket(raw, Dev::dev);
+// burst send
+// dev->sendPackets(burst, burst_sz);
+#ifndef MQTEST
         dev->sendPacket(*raw);
+#endif
         Sender::bytes += raw->getRawDataLen();
     }
     return terminate();

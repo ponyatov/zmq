@@ -2,10 +2,16 @@
     "version": 6,
     "buildPresets": [
         {
+            "name"            :  "mqtest",
+            "configurePreset" :  "mqtest",
+            "targets"         : ["all","install"],
+            "jobs"            :   8
+        },
+        {
             "name"            :  "ubuntu",
             "configurePreset" :  "linux",
             "targets"         : ["all","install"],
-            "jobs"            :   24
+            "jobs"            :   8
         },
         {
             "name"            :  "linux",
@@ -40,6 +46,11 @@
             "displayName"     : "x86_64-linux-gnu",
             "toolchainFile"   : "${sourceDir}/cmake/x86_64-linux-gnu.cmake",
             "cacheVariables"  : {"OS":"linux"}
+        },
+        {
+            "name"            : "mqtest",
+            "inherits"        : "linux",
+            "cacheVariables"  : {"MQTEST":"MQTEST"}
         }
     ]
 }

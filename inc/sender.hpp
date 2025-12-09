@@ -5,13 +5,14 @@
 class Sender : public Worker {
     friend class Group;
     friend class Stat;
-    Group* g;
-    std::string zmq;
-    zmq::socket_t* puller;
-    static const uint burst_sz;
+    static Sender* sender;         ///< singleton
+    static const std::string zmq;  ///<
+    zmq::socket_t* puller;         ///<
+    static const uint burst_sz;    ///< `mbuf[size]`
     static uint bytes;
 
    public:
-    Sender(pcpp::DpdkDevice* dev, Group* g);
+    Sender(pcpp::DpdkDevice* dev);
     bool run(uint32_t coreid);
+    static void init(pcpp::DpdkDevice* dev);
 };

@@ -9,9 +9,11 @@
 
 $DPDKPY restore
 echo 0 | tee /sys/module/vfio/parameters/enable_unsafe_noiommu_mode
+# echo 0 | sudo tee /sys/module/vfio/parameters/enable_unsafe_noiommu_mode
 # cat /sys/module/vfio/parameters/enable_unsafe_noiommu_mode
 
-# bin
+# sudo $DPDKPY restore
+# $DPDKPY status
 
 # 0000:01:00.0
 # 'MT27800 Family [ConnectX-5] 1017'
@@ -22,3 +24,4 @@ echo 0 | tee /sys/module/vfio/parameters/enable_unsafe_noiommu_mode
 
 sudo ip addr add $SIP dev $ETH
 sudo ip link set $ETH up
+# ip link
