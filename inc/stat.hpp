@@ -3,11 +3,12 @@
 #include "app.hpp"
 
 class Stat : public Worker {
-    static Stat* stat;
-    pcpp::DpdkDevice::DpdkDeviceStats stats;
-    static const std::chrono::seconds interval;
+    static Stat* stat;                           ///< @singleton
+    Stat(pcpp::DpdkDevice* dev);                 ///< @ref stat constructor
+    pcpp::DpdkDevice::DpdkDeviceStats stats;     ///<
+    static const std::chrono::seconds interval;  ///<
+
    public:
-    Stat(pcpp::DpdkDevice* dev);
     static void init();
     bool run(uint32_t coreid);
 };

@@ -15,7 +15,7 @@ prefer = newer
 
 # Игнорирование специфичных файлов и кэшей
 # ignore = Name {.unison}
-ignore = Name {g?d}
+ignore = Name {g?d,sender}
 ignore = Name {.git}
 ignore = Name {*~,*.log,*.sw?}
 ignore = Name {bin,tmp,ref}

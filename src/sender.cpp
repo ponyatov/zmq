@@ -8,6 +8,7 @@ Sender::Sender(pcpp::DpdkDevice* dev) : Worker(dev) {
 }
 
 Sender* Sender::sender = nullptr;
+zmq::context_t Sender::context(1);
 
 void Sender::init(pcpp::DpdkDevice* dev) {  //
     assert(!sender);
@@ -16,29 +17,30 @@ void Sender::init(pcpp::DpdkDevice* dev) {  //
 
 bool Sender::run(uint32_t coreId) {
     assert(Worker::run(coreId));
-    timespec ts = {0x12345678};  // fake timestamp
-    pcpp::RawPacket* raw;
+#ifndef MQTEST
+    timespec ts = {0x12345678};            // fake timestamp
+    pcpp::RawPacket* raw;                  //
+    pcpp::MBufRawPacket* burst[burst_sz];  // burst buffer
+#endif
     zmq::message_t message;
-    // burst buffer
-    pcpp::MBufRawPacket* burst[burst_sz];      //
-    uint8_t buf[Sender::burst_sz * Dev::MTU];  //
-    const uint frame_sz = 1442;                // 1400 + 28 + 20;
     //
     while (!_stop) {
         auto res = puller->recv(message, zmq::recv_flags::none);
-        //
+//
+#ifndef MQTEST
         // for (uint idx = 0; idx < burst_sz; idx++) {
         raw = new pcpp::RawPacket(  //
             (uint8_t*)message.data(), message.size(), ts, true);
-// collect
-// burst[idx] = new pcpp::MBufRawPacket();
-// burst[idx]->initFromRawPacket(raw, Dev::dev);
-// burst send
-// dev->sendPackets(burst, burst_sz);
-#ifndef MQTEST
+        // collect
+        // burst[idx] = new pcpp::MBufRawPacket();
+        // burst[idx]->initFromRawPacket(raw, Dev::dev);
+        // burst send
+        // dev->sendPackets(burst, burst_sz);
         dev->sendPacket(*raw);
-#endif
         Sender::bytes += raw->getRawDataLen();
+#else   // MQTEST
+        Sender::bytes += message.size();
+#endif  // MQTEST
     }
     return terminate();
 }

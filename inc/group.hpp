@@ -15,9 +15,10 @@ struct GROUP {
 class Sender;
 
 class Group : public Worker {
-    GROUP* g;               ///< @ref GROUP configuration
-    Sender* sender;         ///< DPDK sender for every Group
-    zmq::socket_t* pusher;  ///< ZMQ push socket
+    GROUP* g;                                   ///< @ref GROUP configuration
+    Sender* sender;                             ///< DPDK sender for every Group
+    zmq::socket_t* pusher;                      ///< ZMQ push socket
+    static const uint8_t MF_flag = 0b00100000;  ///< `More Fragments` flag mask
 
     /// @name metrics
     /// @{

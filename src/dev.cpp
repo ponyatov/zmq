@@ -1,6 +1,5 @@
 #include "app.hpp"
 
-zmq::context_t Dev::context(1);
 
 uint8_t Dev::coreNum = 1;
 pcpp::CoreMask Dev::coreMask;
@@ -22,16 +21,16 @@ void Dev::init() {
     // std::clog << " port:" << Dev::port;
     dev = pcpp::DpdkDeviceList::getInstance().getDeviceByPort(Dev::port);
     Dev::MTU = dev->getMtu();
-    std::clog << "dev: " << dev->getDeviceName()            //
-              << " id:" << dev->getDeviceId()               //
-              << "\n\tmac:" << dev->getMacAddress()         //
-              << " pci:" << dev->getPciAddress()            //
-              << " pmd:" << dev->getPMDName()               //
-              << "\n\ttx:" << dev->getTotalNumOfTxQueues()  //
-              << " rx:" << dev->getTotalNumOfRxQueues()     //
-              << " mbuf:" << dev->getAmountOfMbufsInUse()   //
-              << '/' << dev->getAmountOfFreeMbufs()         //
-              << " mtu:" << dev->getMtu()                   //
+    std::clog << "dev:\t" << dev->getDeviceName()          //
+              << " id:" << dev->getDeviceId()              //
+              << " mac:" << dev->getMacAddress()           //
+              << " pci:" << dev->getPciAddress()           //
+              << "\n\tpmd:" << dev->getPMDName()           //
+              << " tx:" << dev->getTotalNumOfTxQueues()    //
+              << " rx:" << dev->getTotalNumOfRxQueues()    //
+              << " mbuf:" << dev->getAmountOfMbufsInUse()  //
+              << '/' << dev->getAmountOfFreeMbufs()        //
+              << " mtu:" << dev->getMtu()                  //
               << "\n";
     //
     assert(dev->openMultiQueues(1, 1));  // assert(dev->open());

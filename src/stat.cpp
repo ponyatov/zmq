@@ -2,13 +2,16 @@
 
 Stat* Stat::stat = nullptr;
 
-Stat::Stat(pcpp::DpdkDevice* dev) : Worker(dev) {
-    assert(!Stat::stat);  // check singleton
-    Stat::stat = this;
-    std::clog << "stat: sheduled\n";
+const std::chrono::seconds Stat::interval(1);
+
+Stat::Stat(pcpp::DpdkDevice* dev) : Worker(dev) {  //
+    std::clog << "stat:\tstart\n";
 }
 
-void Stat::init() { stat = new Stat(Dev::dev); }
+void Stat::init() {
+    assert(!stat);
+    assert(stat = new Stat(Dev::dev));
+}
 
 #define M (1024. * 1024.)
 #define G (M * 1024.)

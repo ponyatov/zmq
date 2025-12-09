@@ -19,6 +19,7 @@ Group::Group(pcpp::DpdkDevice* dev, GROUP* g) : Worker(dev), g(g) {
 bool Group::run(uint32_t coreId) {
     assert(Worker::run(coreId));
     //
+#ifndef MQTEST
     pcpp::Packet packet;
     pcpp::RawPacket* raw;
     pcpp::EthLayer eth_layer(Dev::sendMac, Dev::recvMac, PCPP_ETHERTYPE_IP);
@@ -35,12 +36,13 @@ bool Group::run(uint32_t coreId) {
         uint16_t crc = 0;
         uint8_t data[FTU];
     } udp_frame;
-    static const uint8_t MF_flag = 0b00100000;  // `More Fragments` flag mask
+#endif  // MQTEST
     //
     for (auto s : g->sensors) s->data = s->start;
     period = std::chrono::nanoseconds(long(1e9 / g->freq));
     //
     while (!_stop) {
+#ifndef MQTEST
         start_time = std::chrono::high_resolution_clock::now();
         for (auto s : g->sensors) {
             //
@@ -96,16 +98,19 @@ bool Group::run(uint32_t coreId) {
                 raw = packet.getRawPacket();
                 pusher->send(zmq::buffer(  //
                     raw->getRawData(), raw->getRawDataLen()));
-                // // pusher->send(zmq::buffer(S_1_1.start, S_1_1.size));
-                // // pusher->send(zmq::buffer(S_1_1.start, 18500 * 28));
             }  // fragment
         }  // sensor
+        // schedule
         end_time = std::chrono::high_resolution_clock::now();
         duration = end_time - start_time;
         if (period > duration)
             std::this_thread::sleep_for(period - duration);
         else
             std::this_thread::sleep_for(std::chrono::nanoseconds(1));
+#else   // MTTEST
+        pusher->send(zmq::buffer(S_1_1.start, S_1_1.size));
+        // pusher->send(zmq::buffer(S_1_1.start, 18500 * 28));
+#endif  // MQTEST
     }  // worker
     //
     return terminate();

@@ -1,10 +1,9 @@
 #include "config.hpp"
 
 const std::chrono::seconds GARP::interval(15);
-const std::chrono::seconds Stat::interval(1);
 
-// const std::string Sender::zmq = "inproc://sender";
-const std::string Sender::zmq = "ipc://sender";
+const std::string Sender::zmq = "inproc://sender";
+// const std::string Sender::zmq = "ipc://sender";
 const uint Sender::burst_sz = 64;
 
 const pcpp::MacAddress Dev::broadcast(BROADCAST);

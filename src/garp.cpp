@@ -2,12 +2,13 @@
 
 GARP* GARP::garp = nullptr;
 
-void GARP::init() { garp = new GARP(Dev::dev); }
+void GARP::init() {
+    assert(!garp);
+    assert(garp = new GARP(Dev::dev));
+}
 
-GARP::GARP(pcpp::DpdkDevice* dev) : Worker(dev) {
-    assert(!GARP::garp);  // check singleton
-    GARP::garp = this;
-    std::clog << "garp: sheduled\n";
+GARP::GARP(pcpp::DpdkDevice* dev) : Worker(dev) {  //
+    std::clog << "garp:\tstart\n";
 }
 
 bool GARP::run(uint32_t coreId) {

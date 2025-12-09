@@ -5,7 +5,7 @@
             "name": "g1d",
             "duration": 60,
             "loop": false,
-            "freq": 1000,
+            "freq": 1,
             "packetSize": 18496,
             "sensors": [
                 {
@@ -21,7 +21,16 @@
                     "dst": "10.120.100.51:40002",
                     "sn": "2531001",
                     "dataPath": "temp/PLT4600_gen_1/S_1_1.gen"
-                },
+                }
+            ]
+        },
+        {
+            "name": "g2d",
+            "duration": 60,
+            "loop": false,
+            "freq": 1,
+            "packetSize": 18496,
+            "sensors": [
                 {
                     "name": "S_1_3",
                     "src": "10.120.100.39:40003",
