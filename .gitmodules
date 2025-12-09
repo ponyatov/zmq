@@ -1,0 +1,4 @@
+[submodule "legas"]
+	path = legas
+	url = git@github.com:ponyatov/legas.git
+	branch = nov25
