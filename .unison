@@ -6,7 +6,7 @@ label = zmq sync
 
 # Корневые директории
 root = /home/dponyatov/zmq
-root = ssh://dev01@10.120.100.39//home/dev01/zmq
+root = ssh://dev01@10.110.1.106//home/dev01/zmq
 
 # Автоматизация
 auto   = true
