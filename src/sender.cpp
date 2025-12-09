@@ -9,8 +9,9 @@ Sender::Sender(pcpp::DpdkDevice* dev) : Worker(dev) {
 
 Sender* Sender::sender = nullptr;
 zmq::context_t Sender::context(1);
+zmq::socket_t* Sender::puller = nullptr;
 
-void Sender::init(pcpp::DpdkDevice* dev) {  //
+void Sender::init(pcpp::DpdkDevice* dev) {
     assert(!sender);
     assert(sender = new Sender(dev));
 }
@@ -22,11 +23,11 @@ bool Sender::run(uint32_t coreId) {
     pcpp::RawPacket* raw;                  //
     pcpp::MBufRawPacket* burst[burst_sz];  // burst buffer
 #endif
-    zmq::message_t message;
     //
     while (!_stop) {
+        zmq::message_t message;
         auto res = puller->recv(message, zmq::recv_flags::none);
-//
+        Sender::bytes += message.size();
 #ifndef MQTEST
         // for (uint idx = 0; idx < burst_sz; idx++) {
         raw = new pcpp::RawPacket(  //
@@ -38,8 +39,6 @@ bool Sender::run(uint32_t coreId) {
         // dev->sendPackets(burst, burst_sz);
         dev->sendPacket(*raw);
         Sender::bytes += raw->getRawDataLen();
-#else   // MQTEST
-        Sender::bytes += message.size();
 #endif  // MQTEST
     }
     puller->close();
