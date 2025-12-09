@@ -1,11 +1,12 @@
 {
+    "baseCPUIndex": 0,
     "groups": [
         {
             "name": "g1d",
             "duration": 60,
             "loop": false,
-            "freq": 1,
-            "packetSize": 1400,
+            "freq": 1000,
+            "packetSize": 18496,
             "sensors": [
                 {
                     "name": "S_1_1",
@@ -30,6 +31,5 @@
                 }
             ]
         }
-    ],
-    "baseCPUIndex": 0
+    ]
 }
