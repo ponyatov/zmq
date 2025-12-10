@@ -34,7 +34,9 @@ bool Sender::run(uint32_t coreId) {
     while (!_stop) {
         zmq::message_t message;
         for (uint8_t g = 0; g < groups; g++) {
-            auto res = puller[g]->recv(message, zmq::recv_flags::none);
+            zmq::recv_result_t res;
+            do res = puller[g]->recv(message, zmq::recv_flags::dontwait);
+            while (!res);
             Sender::bytes += message.size();
         }
 #ifndef MQTEST
