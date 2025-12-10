@@ -2,8 +2,24 @@
 
 const std::chrono::seconds GARP::interval(15);
 
-const std::string Sender::zmq = "inproc://sender";
-// const std::string Sender::zmq = "ipc://sender";
+// const std::string Sender::zmq = "inproc://sender";
+// 30 gbit single sockets only!
+// const std::string Sender::zmq = "ipc://tmp/sender";
+// 1 group: 21 gbit
+// 2 group: 20 gbit
+// 3 group: 21 gbit
+// 4 group: 20 gbit
+//
+const std::string Sender::transport = "inproc://";
+// 1 group: 25 gbit
+// 2 group: 23 gbit
+// 3 group: 0.5..21 gbit (болтанка)
+// 4 group: 3..20 gbit (болтанка)
+// const std::string Sender::transport = "ipc://tmp/";
+// 1 group: 21 gbit
+// 2 group: 15 gbit
+// 3 group: 15 gbit
+// 4 group: 14 gbit
 const uint Sender::burst_sz = 64;
 
 const pcpp::MacAddress Dev::broadcast(BROADCAST);

@@ -9,9 +9,14 @@ class Sender : public Worker {
     bool run(uint32_t coreid);      ///< worker run loop
 
    public:
-    static void init(pcpp::DpdkDevice* dev);  ///< @ref sender start
-    static const std::string zmq;             ///< shared queue
-    static zmq::context_t context;            ///<
-    static zmq::socket_t* puller;             ///< mq read socket
+    static void init(pcpp::DpdkDevice* dev);    ///< @ref sender start
+    static const uint8_t maxgroups = 4;         ///<
+    static zmq::context_t* context[maxgroups];  ///<
+    static zmq::socket_t* puller[maxgroups];    ///< mq read sockets
+    static zmq::socket_t* pusher[maxgroups];  ///< ZMQ push sockets /@ref Group/
+    static uint8_t groups;                    ///< used @ref pusher s
     static uint bytes;                        ///< stat: sent bytes
+    static zmq::socket_t* connect(
+        Group*);  ///< connect @ref Group to @ref Sender
+    static const std::string transport;
 };

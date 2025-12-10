@@ -17,7 +17,6 @@ class Sender;
 class Group : public Worker {
     GROUP* g;                                   ///< @ref GROUP configuration
     Sender* sender;                             ///< DPDK sender for every Group
-    zmq::socket_t* pusher;                      ///< ZMQ push socket
     static const uint8_t MF_flag = 0b00100000;  ///< `More Fragments` flag mask
 
     /// @name metrics
@@ -32,4 +31,5 @@ class Group : public Worker {
     Group(pcpp::DpdkDevice* dev, GROUP* g);
     bool run(uint32_t coreid);
     std::string name() const { return g->name; }
+    zmq::socket_t* pusher;
 };

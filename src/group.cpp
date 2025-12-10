@@ -2,8 +2,7 @@
 
 Group::Group(pcpp::DpdkDevice* dev, GROUP* g) : Worker(dev), g(g) {
     // init order required:
-    assert(pusher = new zmq::socket_t(Sender::context, zmq::socket_type::push));
-    pusher->bind(sender->zmq);
+    assert(pusher = Sender::connect(this));
     std::clog << "\tgroup:" << g->name;
     for (auto s : g->sensors) {
         std::clog << "\n\t\t" << s->name                        //
@@ -99,6 +98,14 @@ bool Group::run(uint32_t coreId) {
                 pusher->send(zmq::buffer(  //
                     raw->getRawData(), raw->getRawDataLen()));
             }  // fragment
+
+            if (s->data >= s->start + s->size - s->packetSize) {
+                s->data = s->start;  // wrap
+            } else {
+                (RIFTEK_HEADER*)(s->data)->Software_packets_counter +=
+                    s->packets;
+                s->data += s->packetSize;  // shift next
+            }
         }  // sensor
         // schedule
         end_time = std::chrono::high_resolution_clock::now();
@@ -108,8 +115,8 @@ bool Group::run(uint32_t coreId) {
         else
             std::this_thread::sleep_for(std::chrono::nanoseconds(1));
 #else   // MTTEST
-        pusher->send(zmq::buffer(S_1_1.start, S_1_1.size));
-        // pusher->send(zmq::buffer(S_1_1.start, 18500 * 28));
+        // pusher->send(zmq::buffer(S_1_1.start, S_1_1.size));
+        pusher->send(zmq::buffer(S_1_1.start, 18496 * 28));
 #endif  // MQTEST
     }  // worker
     //
